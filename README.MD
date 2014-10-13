@@ -9,3 +9,6 @@ Os passos para instalar são:
 - Clonar repositório e copiar os ficheiros para modules/gateways
 - Configurar o módulo em Setup/Payments/Payments Gateways
 - Informar a IfthenPay, Lda o URL de Callback
+
+# Licença
+Este código está sob uma licença Open Source MIT.
