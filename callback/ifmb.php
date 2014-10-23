@@ -103,11 +103,13 @@ $entity = $_GET["entidade"];
 $reference = $_GET["referencia"];
 $value = (double) str_replace(",", ".", $_GET["valor"]);
 
+// Check that params are right
 if($antiphishingkey == $GATEWAY["antiphishingkey"] && $entity == $GATEWAY["entity"]){
 
     $ifmb = new ifmb($GATEWAY["entity"], $GATEWAY["subentity"], $GATEWAY["backofficekey"]);
     $payment = $ifmb->getPayment($reference);
 
+		// Check that the payment was really done
     if($payment && $payment["reference"] == (string)$reference && $value = $payment["value"]) {
         // Check invoice and transaction
         $invoiceid = checkCbInvoiceID($payment["id"],$GATEWAY["ifmb"]); # Checks invoice ID is a valid invoice number or ends processing
@@ -118,9 +120,10 @@ if($antiphishingkey == $GATEWAY["antiphishingkey"] && $entity == $GATEWAY["entit
         $fee = $payment["fee"];
         $amount = $payment["value"];
         addInvoicePayment($invoiceid, $transid, $amount, $fee , $gatewaymodule); # Apply Payment to Invoice: invoiceid, transactionid, amount paid, fees, modulename
-	logTransaction($GATEWAY["name"],$_GET,"Successful"); # Save to Gateway Log: name, data array, status
+				logTransaction($GATEWAY["name"],$_GET,"Successful"); # Save to Gateway Log: name, data array, status
 
     } else {
+		// Payment wasn't really done
         http_response_code(400);
     }
 
