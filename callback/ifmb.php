@@ -123,11 +123,13 @@ if($antiphishingkey == $GATEWAY["antiphishingkey"] && $entity == $GATEWAY["entit
 				logTransaction($GATEWAY["name"],$_GET,"Successful"); # Save to Gateway Log: name, data array, status
 
     } else {
-		// Payment wasn't really done
+				// Payment wasn't really done
+				logTransaction($GATEWAY["name"],$_GET,"Unverified payment");
         http_response_code(400);
     }
 
 } else {
+	  logTransaction($GATEWAY["name"],$_GET,"Invalid params"); 
     http_response_code(400);
 }
 ?>
